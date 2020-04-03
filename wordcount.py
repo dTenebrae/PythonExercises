@@ -72,13 +72,42 @@ def print_words(filename):
         if tuple not in listC:
             listC.append(tuple) #Создание списка кортежей без повторяющихся значений
 #==========================================================
-    listC = sorted(listC, key=sortTuples, reverse=True) #сортировка по второму значению кортежа
+ #   listC = sorted(listC, key=sortTuples, reverse=True) #сортировка по второму значению кортежа
     for tuple in listC:
-        print(tuple[0] + '=' + str(tuple[1]))
+        print(tuple[0] + ' = ' + str(tuple[1]))
     # TODO Make a check for non word entries
     # TODO Make less lists
     return
-
+def print_top(filename):
+    listA = []
+    listB = []
+    listC = []
+    f = open(filename, 'rU')
+    # Разделяем строку на слова ===============================
+    for line in f:
+        listA = listA + line.split()
+    # =========================================================
+    # Создаем список кортежей со словами/частотой встречаемости
+    for word in listA:
+        i = 0
+        wordcount = 0
+        while i < len(listA):
+            if word.lower() == listA[i].lower():
+                wordcount += 1
+            i += 1
+        listB.append((word.lower(), wordcount))
+    i = 0
+    for tuple in listB:
+        if tuple not in listC:
+            listC.append(tuple)  # Создание списка кортежей без повторяющихся значений
+    # ==========================================================
+    listC = sorted(listC, key=sortTuples, reverse=True)  # сортировка по второму значению кортежа
+    i = 0
+    while i < 20 and i < len(listC):
+        tuple = listC[i]
+        print(tuple[0] + ' = ' + str(tuple[1]))
+        i += 1
+    return
 
 # This basic command line argument parsing code is provided and
 # calls the print_words() and print_top() functions which you must define.
