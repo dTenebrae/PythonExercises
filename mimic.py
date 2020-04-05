@@ -51,8 +51,9 @@ def mimic_dict(filename):
     dictA = {}
     listA = f.read().split()
     listB = []
+    dictA[''] = [listA[0]]
     i = 0
-    print(listA)
+    #print(listA)
     while i < len(listA):
         j = 0
         word = listA[i]
@@ -61,21 +62,28 @@ def mimic_dict(filename):
                 if j < len(listA)-1:
                     listB.append(listA[j+1])
             j += 1
-   #     print(word)
         if word.lower() not in dictA.keys():
             dictA[word.lower()] = listB.copy()
-    #    print(dictA)
         listB.clear()
         i += 1
-    print (dictA)
-
-
-    return
+    #print(dictA)
+    return dictA
 
 
 def print_mimic(mimic_dict, word):
     """Given mimic dict and start word, prints 200 random words."""
-    # +++your code here+++
+    str = ' '
+    listA = []
+    i = 0
+    key = word
+    while i < 200:
+        listA.append(key)
+        if len(mimic_dict[key.lower()]) != 0:
+            key = random.choice(mimic_dict[key.lower()])
+        else:
+            key = word
+        i += 1
+    print(str.join(listA))
     return
 
 
