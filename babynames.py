@@ -41,32 +41,38 @@ def extract_names(filename):
     ['2006', 'Aaliyah 91', Aaron 57', 'Abagail 895', ' ...]
     """
     f = open(filename,'r')
-    for line in f:
-        match = re.search(r'Popularity in \w\w\w\w', line)
-        if match:
-            str = match.group()
-    match = re.search(r'\d\d\d\d', str)
-    if match:
-        print(match.group())
-    return
+    year = re.findall(r'Popularity in (\w\w\w\w)', f.read())
+    f.seek(0)
+    #strings = re.findall(r'<td>(\d+)</td><td>(\w+)</td><td>(\w+)</td>', f.read())
+    strings = re.findall(r'<.*?>(\d+)<.*?><.*?>(\w+)<.*?><.*?>(\w+)<.*?>', f.read())
+
+    strings = year + strings
+    #print(strings)
+    f.close()
+    return strings
 
 
 def main():
     # This command-line parsing code is provided.
     # Make a list of command line arguments, omitting the [0] element
     # which is the script itself.
-    extract_names('baby1990.html')
-    #args = sys.argv[1:]
+    args = sys.argv[1:]
 
-    #if not args:
-     #   print('usage: [--summaryfile] file [file ...]')
-      #  sys.exit(1)
+    if not args:
+        print('usage: [--summaryfile] file [file ...]')
+        sys.exit(1)
 
     # Notice the summary flag and remove it from args if it is present.
-    #summary = False
-    #if args[0] == '--summaryfile':
-    #    summary = True
-    #    del args[0]
+    summary = False
+    if args[0] == '--summaryfile':
+        summary = True
+        del args[0]
+
+    #extract_names(args[1])
+    if summary:
+        f = open('summary.log', 'w+')
+        for line in extract_names(args[0]):
+            f.write(line)
 
     # +++your code here+++
     # For each filename, get the names, then either print the text output
